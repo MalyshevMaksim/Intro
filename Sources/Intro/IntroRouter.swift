@@ -5,10 +5,10 @@
 //  Created by m.malyshev on 28.01.2023.
 //
 
-enum IntroRoutes {
+public enum IntroRoutes {
     case auth
 }
 
-protocol IntroRouterProtocol {
-    func route(to route: RootRoute)
+public protocol IntroRouterProtocol {
+    func route(to route: IntroRoutes)
 }

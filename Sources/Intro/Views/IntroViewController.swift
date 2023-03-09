@@ -8,14 +8,15 @@
 import UIKit
 import CommonUI
 
-final class IntroViewController: LifecycleObserveViewController {
+public final class IntroViewController: LifecycleObserveViewController {
 
-    private let presenter: IntroPresenterProtocol
-    private let introView: IntroViewProtocol
+    private let features: [Feature]
+    private let router: IntroRouterProtocol
+    private let introView = IntroView()
 
-    init(presenter: IntroPresenterProtocol, introView: IntroViewProtocol) {
-        self.presenter = presenter
-        self.introView = introView
+    public init(features: [Feature], router: IntroRouterProtocol) {
+        self.features = features
+        self.router = router
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -23,16 +24,21 @@ final class IntroViewController: LifecycleObserveViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func loadView() {
-        view = introView as? UIView
+    public override func loadView() {
+        view = introView
     }
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.loadFeatures()
+        introView.render(Intro(
+            features: features,
+            onContinueButtonTapped: {
+                self.router.route(to: .auth)
+            }
+        ))
     }
 
-    override func willEnterForeground() {
+    public override func willEnterForeground() {
         view.layoutSubviews()
     }
 }

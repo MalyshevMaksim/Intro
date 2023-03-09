@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CollectionViewPagingLayout
 import CommonUI
 
 protocol IntroViewProtocol {
@@ -35,15 +34,15 @@ final class IntroView: UIView {
 
     private lazy var continueButton: ContinueButton = {
         let button = ContinueButton(type: .system)
-        button.setTitle(Strings.EnterPhoneNumber.Buttons.continueButton, for: .normal)
+        //button.setTitle(Strings.EnterPhoneNumber.Buttons.continueButton, for: .normal)
         button.addTarget(self, action: #selector(onContinueButtonTapped), for: .touchUpInside)
         return button
     }()
 
     private lazy var collectionView: UICollectionView = {
-        let layout = CollectionViewPagingLayout()
-        layout.delegate = self
-        layout.numberOfVisibleItems = 1
+        let layout = UICollectionViewLayout()
+        //layout.delegate = self
+        //layout.numberOfVisibleItems = 1
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(cellWithClass: IntroCollectionViewCell.self)
@@ -54,20 +53,20 @@ final class IntroView: UIView {
     }()
 
     private func setupSubviews() {
-        view.backgroundColor = Colors.background.color
+        // view.backgroundColor = Colors.background.color
         addSubviews(subviews: collectionView, continueButton)
     }
 
     private func setupConstraints() {
-        collectionView.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(safeAreaLayoutGuide)
-            $0.bottom.equalTo(continueButton.snp.top)
-        }
-        continueButton.snp.makeConstraints {
-            $0.leading.trailing.equalTo(safeAreaLayoutGuide).inset(24)
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(24)
-            $0.height.equalTo(50)
-        }
+//        collectionView.snp.makeConstraints {
+//            $0.top.leading.trailing.equalTo(safeAreaLayoutGuide)
+//            $0.bottom.equalTo(continueButton.snp.top)
+//        }
+//        continueButton.snp.makeConstraints {
+//            $0.leading.trailing.equalTo(safeAreaLayoutGuide).inset(24)
+//            $0.bottom.equalTo(safeAreaLayoutGuide).inset(24)
+//            $0.height.equalTo(50)
+//        }
     }
 
     @objc private func onContinueButtonTapped() {
@@ -107,9 +106,9 @@ extension IntroView: UICollectionViewDataSource {
     }
 }
 
-// MARK: - CollectionViewPagingLayoutDelegate
-extension IntroView: CollectionViewPagingLayoutDelegate {
-    func onCurrentPageChanged(layout: CollectionViewPagingLayout, currentPage: Int) {
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
-    }
-}
+//// MARK: - CollectionViewPagingLayoutDelegate
+//extension IntroView: CollectionViewPagingLayoutDelegate {
+//    func onCurrentPageChanged(layout: CollectionViewPagingLayout, currentPage: Int) {
+//        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+//    }
+//}

@@ -8,10 +8,10 @@
 struct Intro {
     let features: [Feature]
     let onContinueButtonTapped: () -> Void
+}
 
-    struct Feature {
-        let title: String
-        let description: String
-        let animation: String
-    }
+public struct Feature {
+    let title: String
+    let description: String
+    let animation: String
 }
