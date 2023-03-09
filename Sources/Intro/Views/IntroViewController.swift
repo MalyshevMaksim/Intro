@@ -1,9 +1,3 @@
-//
-//  IntroViewController.swift
-//  Events
-//
-//  Created by m.malyshev on 20.01.2023.
-//
 
 import UIKit
 import CommonUI
