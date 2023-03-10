@@ -1,17 +1,23 @@
-public struct Feature {
+public struct Intro {
+    let features: [Feature]
+    let buttonTitle: String
+    let onContinueButtonTapped: () -> Void
     
-    public  init(title: String, description: String, animation: String) {
-        self.title = title
-        self.description = description
-        self.animation = animation
+    public init(features: [Feature], buttonTitle: String, onContinueButtonTapped: @escaping () -> Void) {
+        self.features = features
+        self.buttonTitle = buttonTitle
+        self.onContinueButtonTapped = onContinueButtonTapped
     }
     
-    let title: String
-    let description: String
-    let animation: String
-}
+    public struct Feature {
+        let title: String
+        let description: String
+        let animation: String
 
-struct Intro {
-    let features: [Feature]
-    let onContinueButtonTapped: () -> Void
+        public init(title: String, description: String, animation: String) {
+            self.title = title
+            self.description = description
+            self.animation = animation
+        }
+    }
 }

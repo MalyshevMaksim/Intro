@@ -1,5 +1,8 @@
 import UIKit
+
 import CommonUI
+import SnapKit
+import CollectionViewPagingLayout
 
 protocol IntroViewProtocol {
     func render(_ props: Intro)
@@ -26,39 +29,36 @@ final class IntroView: UIView {
 
     private lazy var continueButton: ContinueButton = {
         let button = ContinueButton(type: .system)
-        //button.setTitle(Strings.EnterPhoneNumber.Buttons.continueButton, for: .normal)
         button.addTarget(self, action: #selector(onContinueButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
     private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewLayout()
-        //layout.delegate = self
-        //layout.numberOfVisibleItems = 1
+        let layout = CollectionViewPagingLayout()
+        layout.delegate = self
+        layout.numberOfVisibleItems = 1
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(cellWithClass: IntroCollectionViewCell.self)
         collectionView.isPagingEnabled = true
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
 
     private func setupSubviews() {
         addSubviews(subviews: collectionView, continueButton)
-        NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: continueButton.topAnchor),
+        backgroundColor = .systemBackground
 
-            continueButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 24),
-            continueButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -24),
-            continueButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -24),
-            continueButton.heightAnchor.constraint(equalToConstant: 50)
-        ])
+        collectionView.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(safeAreaLayoutGuide)
+            $0.bottom.equalTo(continueButton.snp.top)
+        }
+        continueButton.snp.makeConstraints {
+            $0.leading.trailing.equalTo(safeAreaLayoutGuide).inset(24)
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(24)
+            $0.height.equalTo(50)
+        }
     }
 
     @objc private func onContinueButtonTapped() {
@@ -72,6 +72,7 @@ extension IntroView: IntroViewProtocol {
     func render(_ props: Intro) {
         self.props = props
         collectionView.reloadData()
+        continueButton.setTitle(props.buttonTitle, for: .normal)
     }
 }
 
@@ -98,9 +99,9 @@ extension IntroView: UICollectionViewDataSource {
     }
 }
 
-//// MARK: - CollectionViewPagingLayoutDelegate
-//extension IntroView: CollectionViewPagingLayoutDelegate {
-//    func onCurrentPageChanged(layout: CollectionViewPagingLayout, currentPage: Int) {
-//        UIImpactFeedbackGenerator(style: .light).impactOccurred()
-//    }
-//}
+// MARK: - CollectionViewPagingLayoutDelegate
+extension IntroView: CollectionViewPagingLayoutDelegate {
+    func onCurrentPageChanged(layout: CollectionViewPagingLayout, currentPage: Int) {
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+    }
+}

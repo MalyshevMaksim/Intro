@@ -12,12 +12,15 @@ let package = Package(
             targets: ["Intro"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/MalyshevMaksim/CommonUI", from: "0.0.2")
+        .package(url: "https://github.com/MalyshevMaksim/CommonUI", from: "0.0.2"),
+        .package(url: "https://https://github.com/SnapKit/SnapKit", from: "5.6.0"),
+        .package(url: "https://github.com/amirdew/CollectionViewPagingLayout.git", from: "1.1.0"),
+        .package(url: "https://github.com/airbnb/lottie-spm.git", from: "4.1.3")
     ],
     targets: [
         .target(
             name: "Intro",
-            dependencies: ["CommonUI"]
+            dependencies: ["CommonUI", "SnapKit", "CollectionViewPagingLayout", .product(name: "Lottie", package: "lottie-spm")]
         ),
         .testTarget(
             name: "IntroTests",

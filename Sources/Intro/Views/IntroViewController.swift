@@ -3,13 +3,11 @@ import CommonUI
 
 public final class IntroViewController: LifecycleObserveViewController {
 
-    private let features: [Feature]
-    private let router: IntroRouterProtocol
+    private let intro: Intro
     private let introView = IntroView()
 
-    public init(features: [Feature], router: IntroRouterProtocol) {
-        self.features = features
-        self.router = router
+    public init(intro: Intro) {
+        self.intro = intro
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -23,12 +21,7 @@ public final class IntroViewController: LifecycleObserveViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        introView.render(Intro(
-            features: features,
-            onContinueButtonTapped: {
-                self.router.route(to: .auth)
-            }
-        ))
+        introView.render(intro)
     }
 
     public override func willEnterForeground() {
