@@ -1,5 +1,4 @@
 import UIKit
-
 import CommonUI
 import SnapKit
 import CollectionViewPagingLayout
