@@ -12,7 +12,6 @@ final class IntroView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupSubviews()
-        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -29,6 +28,7 @@ final class IntroView: UIView {
         let button = ContinueButton(type: .system)
         //button.setTitle(Strings.EnterPhoneNumber.Buttons.continueButton, for: .normal)
         button.addTarget(self, action: #selector(onContinueButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
@@ -42,24 +42,23 @@ final class IntroView: UIView {
         collectionView.isPagingEnabled = true
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
 
     private func setupSubviews() {
-        // view.backgroundColor = Colors.background.color
         addSubviews(subviews: collectionView, continueButton)
-    }
+        NSLayoutConstraint.activate([
+            collectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: continueButton.topAnchor),
 
-    private func setupConstraints() {
-//        collectionView.snp.makeConstraints {
-//            $0.top.leading.trailing.equalTo(safeAreaLayoutGuide)
-//            $0.bottom.equalTo(continueButton.snp.top)
-//        }
-//        continueButton.snp.makeConstraints {
-//            $0.leading.trailing.equalTo(safeAreaLayoutGuide).inset(24)
-//            $0.bottom.equalTo(safeAreaLayoutGuide).inset(24)
-//            $0.height.equalTo(50)
-//        }
+            continueButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 24),
+            continueButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -24),
+            continueButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -24),
+            continueButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
 
     @objc private func onContinueButtonTapped() {
